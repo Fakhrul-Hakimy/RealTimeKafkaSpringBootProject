@@ -30,6 +30,28 @@ The system consists of four main components:
 - YouTube API Key
 - Telegram Bot Token and Chat ID
 
+## Environment Variables and Security
+
+### Local Development
+1. Create a `.env.example` file with placeholder values:
+   ```env
+   YOUTUBE_API_KEY=your_youtube_api_key_here
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+   TELEGRAM_BOT_USERNAME=your_bot_username_here
+   TELEGRAM_CHAT_ID=your_chat_id_here
+   ```
+
+2. The `.gitignore` file is configured to:
+   - Ignore `.env` file containing real credentials
+   - Track `.env.example` as a template
+   - Ignore other sensitive files
+
+### Production Deployment
+For production, never commit sensitive values to the repository. Instead:
+1. Use environment variables in your deployment platform
+2. Use secrets management services
+3. Keep credentials in a secure location
+
 ## Setup Instructions
 
 1. **Clone the Repository**
@@ -38,14 +60,13 @@ The system consists of four main components:
    cd <repository-directory>
    ```
 
-2. **Environment Configuration**
+2. **Environment Setup**
+   ```bash
+   # Copy the example env file
+   cp .env.example .env
    
-   Create a `.env` file in the root directory with the following variables:
-   ```env
-   YOUTUBE_API_KEY=your_youtube_api_key
-   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-   TELEGRAM_BOT_USERNAME=your_bot_username
-   TELEGRAM_CHAT_ID=your_chat_id
+   # Edit .env with your actual credentials
+   nano .env
    ```
 
 3. **Build and Start Services**
