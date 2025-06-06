@@ -63,7 +63,7 @@ The system consists of four main components:
 ## Environment Variables and Security
 
 ### Local Development
-1. Create a `.env.example` file with placeholder values:
+1. Create a `.env` file with placeholder values in the root of the project:
    ```env
    YOUTUBE_API_KEY=your_youtube_api_key_here
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
