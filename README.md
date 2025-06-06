@@ -30,6 +30,36 @@ The system consists of four main components:
 - YouTube API Key
 - Telegram Bot Token and Chat ID
 
+### Getting Telegram Bot Token and Chat ID
+
+1. **Create a Telegram Bot**:
+   - Open Telegram and search for "@BotFather"
+   - Start a chat with BotFather
+   - Send `/newbot` command
+   - Follow the instructions to create your bot
+   - Save the bot token provided by BotFather
+
+2. **Get Chat ID**:
+   - Start a chat with your new bot
+   - Send any message to the bot
+   - Open this URL in your browser (replace with your bot token):
+     ```
+     https://api.telegram.org/bot<YourBOTToken>/getUpdates
+     ```
+   - Look for the "chat" object in the response:
+     ```json
+     {
+       "message": {
+         "chat": {
+           "id": 123456789,  // This is your chat ID
+           "type": "private",
+           ...
+         }
+       }
+     }
+     ```
+   - Save the chat ID number
+
 ## Environment Variables and Security
 
 ### Local Development
@@ -116,6 +146,11 @@ The system will automatically:
 - Include video statistics and engagement metrics
 - Provide direct links to videos
 
+To verify Telegram setup:
+1. Make sure your bot is active and you've started a chat with it
+2. Add a YouTube video with an odd-length comment
+3. You should receive a notification in your Telegram chat
+
 ## Data Processing Rules
 
 1. **Comment Processing**
@@ -162,9 +197,15 @@ docker-compose down -v
    - Ensure valid YouTube API key
 
 3. **No Telegram Notifications**
-   - Verify bot token and chat ID
+   - Verify bot token and chat ID are correct
+   - Make sure you've started a chat with your bot
+   - Check if the bot has necessary permissions
+   - Verify the chat ID matches where you want to receive notifications
    - Check Telegram Bot service logs
-   - Ensure bot is added to the chat
+   - Try sending a test message via the Telegram API:
+     ```
+     https://api.telegram.org/bot<YourBOTToken>/sendMessage?chat_id=<YourChatID>&text=Test
+     ```
 
 ## API Endpoints
 
