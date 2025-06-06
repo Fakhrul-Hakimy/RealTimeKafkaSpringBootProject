@@ -108,7 +108,7 @@ For production, never commit sensitive values to the repository. Instead:
    - Kafka (accessible at kafka:9092)
    - Producer Service (Port 8080)
    - Consumer Service (Port 8081)
-   - Telegram Bot Service (Port 8082)
+   - Telegram Bot Service
 
 4. **Verify Services**
    
