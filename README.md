@@ -135,6 +135,11 @@ For production, never commit sensitive values to the repository. Instead:
 ### Adding Videos
 
 1. Use the Producer spring boot webpage to add videos:
+
+   ```
+   http://localhost:8081
+   ```
+
     - Paste a youtube video link in the text field 
     - Click the "Add video" button
    
