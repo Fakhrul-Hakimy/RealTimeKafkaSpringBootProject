@@ -86,7 +86,7 @@ For production, never commit sensitive values to the repository. Instead:
 
 1. **Clone the Repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yt02/RealTimeKafkaSpringBootProject.git
    cd <repository-directory>
    ```
 
