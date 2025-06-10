@@ -137,7 +137,7 @@ For production, never commit sensitive values to the repository. Instead:
 1. Use the Producer spring boot webpage to add videos:
 
    ```
-   http://localhost:8081
+   http://localhost:8080
    ```
 
     - Paste a youtube video link in the text field 
