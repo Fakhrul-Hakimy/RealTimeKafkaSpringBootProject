@@ -1,3 +1,9 @@
+# What you can modify 
+- The web UI
+- the sceduler time of producer is refresh every 5 minutes
+- cloud application
+
+
 # YouTube Analytics System
 
 A real-time YouTube analytics system that processes video data through Kafka and provides analytics through a web interface and Telegram notifications.
