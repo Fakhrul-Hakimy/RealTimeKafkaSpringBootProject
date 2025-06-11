@@ -2,6 +2,7 @@
 - The web UI
 - the sceduler time of producer is refresh every 5 minutes
 - cloud application
+- the producer only check the first comment (you increase the amount of comment need to be check and processing through kafka)
 
 
 # YouTube Analytics System
