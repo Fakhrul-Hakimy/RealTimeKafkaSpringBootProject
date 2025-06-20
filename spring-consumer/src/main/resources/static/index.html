@@ -176,7 +176,7 @@
 <body>
     <div class="container">
         <h1 class="dashboard-header">YouTube Analytics Dashboard</h1>
-        
+
         <!-- Overall Stats Section -->
         <section class="stats-section">
             <h2 class="section-title">Overall Statistics</h2>
@@ -305,7 +305,7 @@
                         let value = '';
                         let icon = '';
                         let label = '';
-                        
+
                         switch(category) {
                             case 'views':
                                 value = formatNumber(video.viewCount);
@@ -334,7 +334,7 @@
                                 break;
                             case 'engagement':
                                 const totalEngagements = (video.likeCount || 0) + (video.commentCount || 0);
-                                const engagementRate = video.viewCount > 0 
+                                const engagementRate = video.viewCount > 0
                                     ? ((totalEngagements * 100.0) / video.viewCount).toFixed(2)
                                     : '0.00';
                                 value = engagementRate + '%';
@@ -342,18 +342,18 @@
                                 label = 'Highest Engagement';
                                 break;
                         }
-                        
-                        const tooltipHtml = category === 'engagement' 
+
+                        const tooltipHtml = category === 'engagement'
                             ? `<div class="stat-description" style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">
                                 Engagement rate shows how interactive your audience is with your content.<br>
                                 Formula: (Likes + Comments) / Views × 100
                                </div>`
                             : '';
-                        
+
                         return `
                             <div class="card">
                                 <div class="stat-label">
-                                    <i class="fas fa-${icon}"></i> 
+                                    <i class="fas fa-${icon}"></i>
                                     ${label}
                                     ${tooltipHtml}
                                 </div>
@@ -367,7 +367,7 @@
                     })
                     .join('');
 
-                document.getElementById('topPerformers').innerHTML = topPerformersHtml || 
+                document.getElementById('topPerformers').innerHTML = topPerformersHtml ||
                     '<div class="card"><div class="stat-label">No top performers data available</div></div>';
             } catch (error) {
                 console.error('Error fetching top performers:', error);
@@ -423,10 +423,10 @@
                         <div class="video-comment" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; font-style: italic; color: #666;">
                             ${video.commentText ? `"${video.commentText}"` : 'No comments available'}
                         </div>
-                        ${video.videoUrl ? 
+                        ${video.videoUrl ?
                             `<a href="${video.videoUrl}" target="_blank" class="video-link">
                                 <i class="fas fa-play"></i> Watch Video
-                            </a>` : 
+                            </a>` :
                             ''}
                     </div>
                 `).join('') : '<div class="video-item">No videos available</div>';
@@ -487,4 +487,4 @@
         }, 30000);
     </script>
 </body>
-</html> 
+</html>

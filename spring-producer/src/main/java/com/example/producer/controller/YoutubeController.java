@@ -1,13 +1,23 @@
 package com.example.producer.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
-import com.example.producer.service.YouTubeService;
-import com.example.producer.model.YoutubeVideo;
-import com.example.producer.repository.YoutubeVideoRepository;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.List;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.producer.model.YoutubeVideo;
+import com.example.producer.repository.YoutubeVideoRepository;
+import com.example.producer.service.KafkaProducerService;
+import com.example.producer.service.VideoCacheService;
+import com.example.producer.service.YouTubeService;
 
 @RestController
 @RequestMapping("/api/youtube")
@@ -17,10 +27,15 @@ public class YoutubeController {
     private static final Logger logger = LoggerFactory.getLogger(YoutubeController.class);
     private final YouTubeService youtubeService;
     private final YoutubeVideoRepository videoRepository;
+    private final KafkaProducerService kafkaProducerService;
+    private final VideoCacheService videoCacheService;
 
-    public YoutubeController(YouTubeService youtubeService, YoutubeVideoRepository videoRepository) {
+    public YoutubeController(YouTubeService youtubeService, YoutubeVideoRepository videoRepository,
+                             KafkaProducerService kafkaProducerService, VideoCacheService videoCacheService) {
         this.youtubeService = youtubeService;
         this.videoRepository = videoRepository;
+        this.kafkaProducerService = kafkaProducerService;
+        this.videoCacheService = videoCacheService;
     }
 
     @GetMapping("/search")
@@ -30,10 +45,20 @@ public class YoutubeController {
             if (query.contains("youtube.com/") || query.contains("youtu.be/")) {
                 // If the query is a full URL, use it directly
                 video = youtubeService.fetchVideoData(query);
+                String commentText = video.getCommentText();
+                // if (commentText == null || commentText.trim().isEmpty()) {
+                //     return ResponseEntity.badRequest()
+                //             .body("Video will be skip due to the comment length not even or odd.");
+                // }
             } else {
                 // If the query is just a video ID, construct the URL
                 String videoUrl = "https://www.youtube.com/watch?v=" + query;
                 video = youtubeService.fetchVideoData(videoUrl);
+                String commentText = video.getCommentText();
+                // if (commentText == null || commentText.trim().isEmpty()) {
+                //     return ResponseEntity.badRequest()
+                //             .body("Video will be skip due to the comment length not even or odd.");
+                // }
             }
             return ResponseEntity.ok(video);
         } catch (IllegalArgumentException e) {
@@ -57,7 +82,9 @@ public class YoutubeController {
                 return ResponseEntity.notFound().build();
             }
             videoRepository.deleteById(videoId);
-            logger.info("Successfully deleted video with ID: {}", videoId);
+            videoCacheService.clearVideoCache(videoId);
+            kafkaProducerService.sendDeleteNotification(videoId);
+            logger.info("Successfully deleted video with ID: {} and sent delete notification", videoId);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             logger.error("Error deleting video with ID: {}", videoId, e);

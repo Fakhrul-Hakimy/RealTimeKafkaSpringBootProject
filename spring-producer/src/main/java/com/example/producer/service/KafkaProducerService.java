@@ -1,7 +1,6 @@
 package com.example.producer.service;
 
 import java.util.concurrent.CompletableFuture;
-import java.time.Instant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,6 @@ import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 import com.example.producer.model.YoutubeVideo;
-import com.example.producer.model.YoutubeVideoAnalytics;
 import com.example.producer.repository.YoutubeVideoAnalyticsRepository;
 
 @Service
@@ -21,7 +19,7 @@ public class KafkaProducerService {
 
     private final KafkaTemplate<String, YoutubeVideo> kafkaTemplate;
     private final YoutubeVideoAnalyticsRepository analyticsRepository;
-    
+
     @Value("${kafka.topic.youtube-data}")
     private String analyticsTopic;
 
@@ -31,8 +29,8 @@ public class KafkaProducerService {
     @Value("${kafka.topic.youtube-delete}")
     private String deleteTopic;
 
-    public KafkaProducerService(KafkaTemplate<String, YoutubeVideo> kafkaTemplate, 
-                               YoutubeVideoAnalyticsRepository analyticsRepository) {
+    public KafkaProducerService(KafkaTemplate<String, YoutubeVideo> kafkaTemplate,
+                                YoutubeVideoAnalyticsRepository analyticsRepository) {
         this.kafkaTemplate = kafkaTemplate;
         this.analyticsRepository = analyticsRepository;
     }
@@ -48,23 +46,23 @@ public class KafkaProducerService {
 
         String commentText = video.getCommentText();
         logger.debug("Comment text for video {}: '{}'", video.getVideoId(), commentText);
-        
+
         if (commentText != null && !commentText.trim().isEmpty()) {
             commentText = commentText.trim();
             int commentLength = commentText.length();
-            
-            logger.info("Video {} has comment with length {} - Comment text: '{}'", 
-                video.getVideoId(), commentLength, commentText);
+
+            logger.info("Video {} has comment with length {} - Comment text: '{}'",
+                    video.getVideoId(), commentLength, commentText);
 
             if (commentLength % 2 == 0) {
                 // Even length - send to consumer for analytics processing
-                logger.info("Video {} has even comment length ({}), sending to analytics topic: {}", 
-                video.getVideoId(), commentLength, analyticsTopic);
+                logger.info("Video {} has even comment length ({}), sending to analytics topic: {}",
+                        video.getVideoId(), commentLength, analyticsTopic);
                 sendToAnalytics(video);
             } else {
                 // Odd length - send to Telegram
-                logger.info("Video {} has odd comment length ({}), sending to Telegram topic: {}", 
-                video.getVideoId(), commentLength, commentsTopic);
+                logger.info("Video {} has odd comment length ({}), sending to Telegram topic: {}",
+                        video.getVideoId(), commentLength, commentsTopic);
                 try {
                     sendToTelegram(video);
                 } catch (Exception e) {
@@ -83,40 +81,40 @@ public class KafkaProducerService {
         }
 
         logger.info("Sending delete notification for video: {}", videoId);
-        
+
         // Create a video object with just the ID for deletion
         YoutubeVideo deleteVideo = new YoutubeVideo();
         deleteVideo.setVideoId(videoId);
-        
-        CompletableFuture<SendResult<String, YoutubeVideo>> future = 
-            kafkaTemplate.send(deleteTopic, videoId, deleteVideo);
-        
+
+        CompletableFuture<SendResult<String, YoutubeVideo>> future =
+                kafkaTemplate.send(deleteTopic, videoId, deleteVideo);
+
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                logger.info("Sent delete notification for video ID: {} with offset: {}", 
-                    videoId, 
-                    result.getRecordMetadata().offset());
+                logger.info("Sent delete notification for video ID: {} with offset: {}",
+                        videoId,
+                        result.getRecordMetadata().offset());
             } else {
-                logger.error("Unable to send delete notification for video ID: {} due to : {}", 
-                    videoId, 
-                    ex.getMessage());
+                logger.error("Unable to send delete notification for video ID: {} due to : {}",
+                        videoId,
+                        ex.getMessage());
             }
         });
     }
 
     private void sendToAnalytics(YoutubeVideo video) {
-        CompletableFuture<SendResult<String, YoutubeVideo>> future = 
-            kafkaTemplate.send(analyticsTopic, video.getVideoId(), video);
-        
+        CompletableFuture<SendResult<String, YoutubeVideo>> future =
+                kafkaTemplate.send(analyticsTopic, video.getVideoId(), video);
+
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                logger.info("Sent video data for analytics, ID: {} with offset: {}", 
-                    video.getVideoId(), 
-                    result.getRecordMetadata().offset());
+                logger.info("Sent video data for analytics, ID: {} with offset: {}",
+                        video.getVideoId(),
+                        result.getRecordMetadata().offset());
             } else {
-                logger.error("Unable to send video data for analytics, ID: {} due to : {}", 
-                    video.getVideoId(), 
-                    ex.getMessage());
+                logger.error("Unable to send video data for analytics, ID: {} due to : {}",
+                        video.getVideoId(),
+                        ex.getMessage());
             }
         });
     }
@@ -124,18 +122,18 @@ public class KafkaProducerService {
     private void sendToTelegram(YoutubeVideo video) {
         try {
             // Send to Kafka for Telegram bot
-            CompletableFuture<SendResult<String, YoutubeVideo>> future = 
-                kafkaTemplate.send(commentsTopic, video.getVideoId(), video);
-            
+            CompletableFuture<SendResult<String, YoutubeVideo>> future =
+                    kafkaTemplate.send(commentsTopic, video.getVideoId(), video);
+
             future.whenComplete((result, ex) -> {
                 if (ex == null) {
-                    logger.info("Sent video data to Telegram topic, ID: {} with offset: {}", 
-                        video.getVideoId(), 
-                        result.getRecordMetadata().offset());
+                    logger.info("Sent video data to Telegram topic, ID: {} with offset: {}",
+                            video.getVideoId(),
+                            result.getRecordMetadata().offset());
                 } else {
-                    logger.error("Unable to send video data to Telegram topic, ID: {} due to : {}", 
-                        video.getVideoId(), 
-                        ex.getMessage());
+                    logger.error("Unable to send video data to Telegram topic, ID: {} due to : {}",
+                            video.getVideoId(),
+                            ex.getMessage());
                 }
             });
         } catch (Exception e) {

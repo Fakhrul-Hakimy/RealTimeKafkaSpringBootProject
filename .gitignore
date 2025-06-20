@@ -1,5 +1,7 @@
 # Environment variables
-
+docker/.env
+.env.*
+!.env.example
 
 # Compiled class files
 *.class

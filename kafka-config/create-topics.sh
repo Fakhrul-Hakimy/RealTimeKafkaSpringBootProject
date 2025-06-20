@@ -16,7 +16,23 @@ kafka-topics --bootstrap-server kafka:29092 \
     --replication-factor 1 \
     --config retention.ms=86400000
 
-# Add more topics here if needed
+# YouTube comments topic
+kafka-topics --bootstrap-server kafka:29092 \
+    --create \
+    --if-not-exists \
+    --topic youtube-comments \
+    --partitions 3 \
+    --replication-factor 1 \
+    --config retention.ms=86400000
+
+# YouTube delete topic
+kafka-topics --bootstrap-server kafka:29092 \
+    --create \
+    --if-not-exists \
+    --topic youtube-delete \
+    --partitions 3 \
+    --replication-factor 1 \
+    --config retention.ms=86400000
 
 echo "Topics created successfully!"
 

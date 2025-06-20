@@ -1,18 +1,24 @@
 package com.example.consumer.service;
 
-import com.example.consumer.model.YoutubeVideo;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+
+import com.example.consumer.model.YoutubeVideo;
 
 @Service
 public class KafkaConsumerService {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaConsumerService.class);
-    
+
     // In-memory storage for video data
     private final Map<String, YoutubeVideo> videoCache = new ConcurrentHashMap<>();
 
@@ -25,13 +31,13 @@ public class KafkaConsumerService {
             }
 
             logger.info("Processing video update for ID: {}", video.getVideoId());
-            
+
             // Update video in cache
             videoCache.put(video.getVideoId(), video);
-            
-            logger.info("Successfully processed video data. ID: {}, Title: {}", 
-                video.getVideoId(), video.getTitle());
-            
+
+            logger.info("Successfully processed video data. ID: {}, Title: {}",
+                    video.getVideoId(), video.getTitle());
+
         } catch (Exception e) {
             logger.error("Error processing video update: ", e);
             throw e; // Rethrow to trigger Kafka retry

@@ -1,233 +1,164 @@
-# What you can modify 
-- The web UI
-- the sceduler time of producer is refresh every 5 minutes
-- cloud application
-- the producer only check the first comment (you increase the amount of comment need to be check and processing through kafka)
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/gdOVIhcR)
+## Requirements for Group Project
+[Read the instruction](https://github.com/STIWK3014-A242/class-activity-stiwk3014/blob/main/GroupProject.md)
 
+## Refer to the link below for the `Group Name` and `Group Members`
+https://github.com/STIWK3014-A242/class-activity-stiwk3014/blob/main/NewGroupMembers.md
 
-# YouTube Analytics System
-
-A real-time YouTube analytics system that processes video data through Kafka and provides analytics through a web interface and Telegram notifications.
-
-## System Architecture
-
-The system consists of four main components:
-
-1. **Producer Service** (Port 8080)
-   - Fetches YouTube video data using the YouTube API
-   - Processes and sends data to Kafka topics
-   - Handles video addition and updates
-
-2. **Consumer Service** (Port 8081)
-   - Processes data from Kafka
-   - Provides real-time analytics
-   - Serves the web dashboard
-
-3. **Telegram Bot Service** 
-   - Sends notifications to Telegram
-   - Processes video updates with odd-length comments
-
-4. **Infrastructure**
-   - Kafka for message streaming
-   - In-memory storage for analytics
-
-## Prerequisites
-
-- Docker and Docker Compose
-- YouTube API Key
-- Telegram Bot Token and Chat ID
-
-### Getting Telegram Bot Token and Chat ID
-
-1. **Create a Telegram Bot**:
-   - Open Telegram and search for "@BotFather"
-   - Start a chat with BotFather
-   - Send `/newbot` command
-   - Follow the instructions to create your bot
-   - Save the bot token provided by BotFather
-
-2. **Get Chat ID**:
-   - Start a chat with your new bot
-   - Send any message to the bot
-   - Open this URL in your browser (replace with your bot token):
-     ```
-     https://api.telegram.org/bot<YourBOTToken>/getUpdates
-     ```
-   - Look for the "chat" object in the response:
-     ```json
-     {
-       "message": {
-         "chat": {
-           "id": 123456789,  // This is your chat ID
-           "type": "private",
-           ...
-         }
-       }
-     }
-     ```
-   - Save the chat ID number
-
-## Environment Variables and Security
-
-### Local Development
-1. Create a `.env` file with placeholder values in the root of the project:
-   ```env
-   YOUTUBE_API_KEY=your_youtube_api_key_here
-   TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
-   TELEGRAM_BOT_USERNAME=your_bot_username_here
-   TELEGRAM_CHAT_ID=your_chat_id_here
-   ```
-
-2. The `.gitignore` file is configured to:
-   - Ignore `.env` file containing real credentials
-   - Track `.env.example` as a template
-   - Ignore other sensitive files
-
-### Production Deployment
-For production, never commit sensitive values to the repository. Instead:
-1. Use environment variables in your deployment platform
-2. Use secrets management services
-3. Keep credentials in a secure location
-
-## Setup Instructions
-
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/yt02/RealTimeKafkaSpringBootProject.git
-   cd <repository-directory>
-   ```
-
-2. **Environment Setup**
-   ```bash
-   # Copy the example env file
-   cp .env.example .env
+## Group Info:
+1. Matric Number & Name & Photo & Phone Number
    
-   # Edit .env with your actual credentials
-   nano .env
+| Name                                     | Photo         | Matrix Number | Phone Number |
+|------------------------------------------|---------------|---------------|--------------|
+| Arab Chaaba Omar                                         |   | 290071               |01121679501              |
+| MUHAMMAD FAKHRUL HAKIMY BIN NOR ZUL FAKA | <img src="resources/Fakhrul_Hakimy.jpeg" alt="Photo" width="100">  | 293215        | 0137029185   |
+| TEE YEE THONG                            | ![Photo](resources/TEE_YEE_THONG.jpg) | 291814        | 0187749549   |
+| LEONG JING YUN                           | ![L](https://github.com/user-attachments/assets/f45bbbbf-132b-43fd-a643-fbc2e7c563f9) | 298804        |0102943918   |
+| SAW MING SHENG                                         | <img src="resources/SAW_MING_SHENG.png" alt="Photo" width="100"> | 296289              | 0182488216             |
+
+
+1. Mention who the leader is.
+1. Mention your group name for Assignment-1 and Assignment-2
+
+| Name | Assignment-1 | Assignment-2 |
+| --------------- |--------------| --------------- |
+| Arab Chaaba Omar | bytesync             |bytesync_  |  
+| MUHAMMAD FAKHRUL HAKIMY BIN NOR ZUL FAKA |   javacoffee           |javacoffee_  |  
+| TEE YEE THONG | reallyfun    | reallyfun2 |  
+| LEONG JING YUN | javaboys     | javaboys2 |
+|  |              |  |  
+
+1. Other related info (if any)
+
+## Title of your application (a unique title)
+## Abstract (in 300 words)
+
+   1. Background
+      
+      With the rapid growth of video content on platforms like YouTube, timely and scalable analysis of video data is crucial for content creators and marketers to make informed decisions. Distributed real-time data processing systems enable continuous analysis of streaming data, which traditional batch systems cannot efficiently support.
+  
+   3. Problem Statement (from article)
+      
+      Batch processing systems process large datasets in scheduled intervals, which can lead to delays, late-arriving data issues, and inconsistencies across data copies. These limitations restrict timely decision-making and real-time insights. In contrast, real-time streaming systems, such as those built with Apache Kafka, provide low-latency and continuous data processing capabilities. However, implementing such systems requires overcoming challenges related to scalability, fault tolerance, and data consistency in distributed environments (Waehner, 2025; Eyer, 2025; GeeksforGeeks, 2025).
+      
+   5. Main objective
+      
+      This project aims to design and implement a distributed real-time pipeline to analyze YouTube video metadata. The system retrieves video data through the YouTube Data API, streams the data via Kafka, filters and routes comments based on content length to either a Telegram Bot or a consumer web app, and visualizes analytics through Spring Boot applications.
+      
+   7. Methodology
+      
+      Using a microservices architecture containerized by Docker, the project consists of five components: a Spring Boot producer application, Kafka streaming platform, Telegram Bot, MySQL database, and Spring Boot consumer application. Data flows from user input through producer to Kafka, where conditional logic directs the stream to appropriate consumers for real-time processing and analysis.
+   
+   9. Result
+       
+       The system effectively handles real-time YouTube data ingestion, processing, and analytics presentation. Kafka’s distributed streaming ensures scalability and reliability, while the Telegram Bot provides instant notifications for specific comment types.
+       
+   11. Conclusion
+       
+       This project demonstrates that integrating real-time streaming technologies and microservices architecture can address the limitations of batch processing in YouTube data analytics, delivering scalable, timely, and interactive data insights.
+
+
+       
+
+## System Architecture (MUST be included in your presentation)
+
+![Blank board](https://github.com/user-attachments/assets/21d7bd2e-8074-4d83-a4e8-f7718dbf1d98)
+
+
+## Link for Docker Image
+
+## Instructions on how to run Docker.
+### Prerequisites
+- Docker and Docker Compose installed on your system
+- Git to clone the repository
+
+### Setup Steps
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-repo/youtube-analytics.git
+   cd youtube-analytics
    ```
 
-3. **Build and Start Services**
+2. **Create environment variables file**
+   Create a `.env` file in the `docker` directory with the following variables:
+   ```
+   YOUTUBE_API_KEY=your_youtube_api_key
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+   TELEGRAM_BOT_USERNAME=your_bot_username
+   TELEGRAM_CHAT_ID=your_chat_id
+   ```
+
+3. **Start the application**
    ```bash
+   cd docker
    docker-compose up -d
    ```
 
-   This will start:
-   - Kafka (accessible at kafka:9092)
-   - Producer Service (Port 8080)
-   - Consumer Service (Port 8081)
-   - Telegram Bot Service
-
-4. **Verify Services**
-   
-   Check if all services are running:
+4. **Verify services are running**
    ```bash
    docker-compose ps
    ```
 
-## Using the System
+5. **Access the applications**
+   - Producer API: http://localhost:8080
+   - Consumer Dashboard: http://localhost:8081
 
-### Web Dashboard
-
-1. Access the analytics dashboard at:
-   ```
-   http://localhost:8081
-   ```
-
-   The dashboard shows:
-   - Total statistics (views, likes, comments)
-   - Top performing videos
-   - Latest video updates
-   - Engagement metrics
-
-### Adding Videos
-
-1. Use the Producer spring boot webpage to add videos:
-
-   ```
-   http://localhost:8080
-   ```
-
-    - Paste a youtube video link in the text field 
-    - Click the "Add video" button
+6. **View logs**
+   ```bash
+   # View logs for all services
+   docker-compose logs -f
    
+   # View logs for a specific service
+   docker-compose logs -f spring-producer
+   ```
 
-### Telegram Notifications
+7. **Stop the application**
+   ```bash
+   docker-compose down
+   ```
 
-The system will automatically:
-- Send notifications for videos with odd-length comments
-- Include video statistics and engagement metrics
-- Provide direct links to videos
+### Troubleshooting
 
-To verify Telegram setup:
-1. Make sure your bot is active and you've started a chat with it
-2. Add a YouTube video with an odd-length comment
-3. You should receive a notification in your Telegram chat
+- If services fail to start, check logs with `docker-compose logs`
+- Ensure all required environment variables are set in the `.env` file
+- Verify that ports 8080, 8081, and 9092 are not already in use
 
-## Data Processing Rules
 
-1. **Comment Processing**
-   - Even-length comments → Analytics processing
-   - Odd-length comments → Telegram notifications
+## List of all the endpoints
 
-2. **Analytics Calculation**
-   - Engagement Rate = (Likes + Comments) / Views × 100
-   - All metrics are updated in real-time
-   - Top performers are calculated across all tracked videos
+## User manual/guideline for system configuration (if any)
 
-## Monitoring and Maintenance
+## User manual/guideline for testing the system
 
-### Logs
-View service logs:
-```bash
-# All services
-docker-compose logs -f
+## Link for the YouTube Presentation
 
-# Specific service
-docker-compose logs -f [service-name]
-```
+## Result/Output (Screenshot of the output)
 
-### Stopping the System
-```bash
-docker-compose down
-```
+## References (Not less than 20)
+1. Amazon. (2022). Amazon Elastic Compute Cloud Documentation. Amazon.com. https://docs.aws.amazon.com/ec2/
+2. Baeldung. (2020, September 29). Introduction to Apache Kafka with Java. https://www.baeldung.com/kafka
+3. Confluent. (n.d.). Java client for Apache Kafka. Confluent, Inc. Retrieved May 23, 2025, from https://docs.confluent.io/kafka-clients/java/current/overview.html
+4. Docker, Inc. (n.d.). Docker documentation. https://docs.docker.com/
+5. Eyer, A. (2025). Real-time data stream processing scalability guide. Eyer AI Blog. https://www.eyer.ai/blog/real-time-data-stream-processing-scalability-guide/
+6. Fernandez, F. (2024, March 8). Building a YouTube data analysis Telegram Bot powered by Kafka and ksqlDB [Blog post]. Medium. Retrieved June 15, 2025, from https://medium.com/@ofelipefernandez/building-a-youtube-data-analysis-telegram-bot-powered-by-kafka-and-ksqldb-9b6ee430f2c8
+7. Fadatare, R. (2024, May). Spring Boot with Apache Kafka using Docker Compose: a step‑by‑step tutorial. Java Guides. Retrieved June 15, 2025, from https://www.javaguides.net/2024/05/spring-boot-with-apache-kafka-using-docker-compose.html
+8. GeeksforGeeks. (2021, March 18). Apache Kafka in Java. https://www.geeksforgeeks.org/apache-kafka-in-java/
+9. GeeksforGeeks. (2025). Real-time data processing: Challenges and solutions for streaming data. https://www.geeksforgeeks.org/real-time-data-processing-challenges-and-solutions-for-streaming-data/
+10. Kreps, J., Narkhede, N., & Rao, J. (2011). Kafka: A Distributed Messaging System for Log Processing. Proceedings of the NetDB. Retrieved from https://dl.acm.org/doi/10.1145/1966445.1966449
+11. Oracle. (n.d.). Java SE documentation. https://docs.oracle.com/en/java/javase/
+12. Waehner, K. (2025, April 1). The top 20 problems with batch processing and how to fix them with data streaming. Kai Waehner Blog. https://www.kai-waehner.de/blog/2025/04/01/the-top-20-problems-with-batch-processing-and-how-to-fix-them-with-data-streaming/
+13. Venturelli, I. (2024, August 5; last updated March 4, 2025). Spring Boot and Kafka: Real-time data processing. Retrieved from https://igventurelli.io/spring-boot-and-kafka-real-time-data-processing/
+14. Vogels, W. (2020, January 6). Eventually consistent: Building reliable distributed systems. ACM Queue. https://queue.acm.org/detail.cfm?id=945134
+15. Apache Kafka. (n.d.). Documentation. The Apache Software Foundation. Retrieved May 23, 2025, from https://kafka.apache.org/documentation/
+16. Apache Software Foundation. (n.d.). Kafka KRaft mode documentation (KIP-500). https://cwiki.apache.org/confluence/display/KAFKA/KIP-500%3A+Replace+ZooKeeper+with+a+Self-Managed+Metadata+Quorum
+17. Apache Software Foundation. (n.d.). Apache Kafka quickstart. https://kafka.apache.org/quickstart
+18. Spring Boot :: Spring Boot. (n.d.). Docs.spring.io. https://docs.spring.io/spring-boot/index.html
+19. Kreps, J., Narkhede, N., & Rao, J. (2011). Kafka: A Distributed Messaging System for Log Processing. Proceedings of the NetDB. Retrieved from https://dl.acm.org/doi/10.1145/1966445.1966449
+20. Apache Software Foundation. (n.d.). Apache Kafka documentation. https://kafka.apache.org/documentation/
 
-To remove all data:
-```bash
-docker-compose down -v
-```
+‌
 
-## Troubleshooting
+## User manual for installing your application on Cloud (Bonus 5%)
 
-1. **Service Not Starting**
-   - Check environment variables in `.env`
-   - Verify Docker service is running
-   - Check port conflicts
-
-2. **No Data in Dashboard**
-   - Verify Kafka is running
-   - Check Producer service logs
-   - Ensure valid YouTube API key
-
-3. **No Telegram Notifications**
-   - Verify bot token and chat ID are correct
-   - Make sure you've started a chat with your bot
-   - Check if the bot has necessary permissions
-   - Verify the chat ID matches where you want to receive notifications
-   - Check Telegram Bot service logs
-   - Try sending a test message via the Telegram API:
-     ```
-     https://api.telegram.org/bot<YourBOTToken>/sendMessage?chat_id=<YourChatID>&text=Test
-     ```
-
-## API Endpoints
-
-### Producer Service (8080)
-- `GET /api/youtube/search?query=VIDEO_URL` - Add/update video
-- `GET /api/youtube/videos` - List all tracked videos
-- `DELETE /api/youtube/videos/{videoId}` - Remove video
-
-### Consumer Service (8081)
-- `GET /api/analytics/highest` - Get top performers
-- `GET /api/analytics/videos` - Get all videos
-- `GET /api/analytics/comparison` - Get comparative analytics
 

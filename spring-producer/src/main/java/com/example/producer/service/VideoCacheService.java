@@ -3,10 +3,11 @@ package com.example.producer.service;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.stereotype.Service;
+
 import com.example.producer.model.YoutubeVideo;
 import com.google.api.services.youtube.model.Channel;
-import com.google.api.services.youtube.model.Video;
 
 @Service
 public class VideoCacheService {
@@ -56,5 +57,8 @@ public class VideoCacheService {
     public void clearCache() {
         videoCache.clear();
         channelCache.clear();
+    }
+    public void clearVideoCache(String videoId) {
+        videoCache.remove(videoId);
     }
 } 
