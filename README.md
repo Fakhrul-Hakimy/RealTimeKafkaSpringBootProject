@@ -1,34 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/gdOVIhcR)
-## Requirements for Group Project
-[Read the instruction](https://github.com/STIWK3014-A242/class-activity-stiwk3014/blob/main/GroupProject.md)
-
-## Refer to the link below for the `Group Name` and `Group Members`
-https://github.com/STIWK3014-A242/class-activity-stiwk3014/blob/main/NewGroupMembers.md
-
-## Group Info:
-1. Matric Number & Name & Photo & Phone Number
-   
-| Name                                     | Photo         | Matrix Number | Phone Number |
-|------------------------------------------|---------------|---------------|--------------|
-| Arab Chaaba Omar                                         |   | 290071               |01121679501              |
-| MUHAMMAD FAKHRUL HAKIMY BIN NOR ZUL FAKA | <img src="resources/Fakhrul_Hakimy.jpeg" alt="Photo" width="100">  | 293215        | 0137029185   |
-| TEE YEE THONG                            | ![Photo](resources/TEE_YEE_THONG.jpg) | 291814        | 0187749549   |
-| LEONG JING YUN                           | ![L](https://github.com/user-attachments/assets/f45bbbbf-132b-43fd-a643-fbc2e7c563f9) | 298804        |0102943918   |
-| SAW MING SHENG                                         | <img src="resources/SAW_MING_SHENG.png" alt="Photo" width="100"> | 296289              | 0182488216             |
-
-
-1. Mention who the leader is.
-1. Mention your group name for Assignment-1 and Assignment-2
-
-| Name | Assignment-1 | Assignment-2 |
-| --------------- |--------------| --------------- |
-| Arab Chaaba Omar | bytesync             |bytesync_  |  
-| MUHAMMAD FAKHRUL HAKIMY BIN NOR ZUL FAKA |   javacoffee           |javacoffee_  |  
-| TEE YEE THONG | reallyfun    | reallyfun2 |  
-| LEONG JING YUN | javaboys     | javaboys2 |
-|  |              |  |  
-
-1. Other related info (if any)
 
 ## Title of your application (a unique title)
 ## Abstract (in 300 words)
